@@ -1,3 +1,9 @@
+<div align="center">
+
+![Chat-Logo](https://github.com/AverageOrangeCat/chat/assets/74761380/9e2cb731-9837-40c3-a8b7-76933ba9b243)
+
+</div>
+
 # Chat 🎉
 
 ## General
@@ -9,6 +15,14 @@ Chat is a simple project I wanted to create to ...
 3. ... have fun 🥳
 
 This isn't anything serious, just a side project of mine!
+
+## Mockups
+
+I created some mockups to make important design choices like coloring, layout, etc. 
+
+![Index-Page](https://github.com/AverageOrangeCat/chat/assets/74761380/cf13ce62-5caa-45f7-85ac-6a5cff072645)
+
+![Chat-Room-Page](https://github.com/AverageOrangeCat/chat/assets/74761380/3ac55492-e457-4a5a-a283-28e7ac2e4e8a)
 
 ## Setup
 
