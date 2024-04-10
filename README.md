@@ -1,6 +1,6 @@
 <div align="center">
 
-![Chat-Logo](https://github.com/AverageOrangeCat/chat/assets/74761380/9e2cb731-9837-40c3-a8b7-76933ba9b243)
+![Chat-Logo](https://github.com/AverageOrangeCat/chat/assets/74761380/321a40c2-0423-4afc-936c-766fb2bd59d4)
 
 </div>
 
@@ -20,9 +20,9 @@ This isn't anything serious, just a side project of mine!
 
 I created some mockups to make important design choices like coloring, layout, etc. 
 
-![Index-Page](https://github.com/AverageOrangeCat/chat/assets/74761380/cf13ce62-5caa-45f7-85ac-6a5cff072645)
+![Index-Page](https://github.com/AverageOrangeCat/chat/assets/74761380/f7be3d8f-63c1-4df0-9295-9d95f994c8ca)
 
-![Chat-Room-Page](https://github.com/AverageOrangeCat/chat/assets/74761380/3ac55492-e457-4a5a-a283-28e7ac2e4e8a)
+![Chat-Room-Page](https://github.com/AverageOrangeCat/chat/assets/74761380/e67548ae-6955-46ae-8737-4916c7bb5154)
 
 ## Setup
 
