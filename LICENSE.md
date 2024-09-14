@@ -1,4 +1,4 @@
-### MIT
+### MIT License
 
 Copyright © 2024, AverageOrangeCat
 

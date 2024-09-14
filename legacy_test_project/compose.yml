@@ -1,0 +1,23 @@
+services:
+  database:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "5432:5432"
+  
+  application:
+    environment:
+      JDBC_URL: ${JDBC_URL}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+    build:
+      context: .
+      dockerfile: dockerfile/application/Dockerfile
+    depends_on:
+      - database
+    ports:
+      - "8080:8080"

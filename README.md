@@ -30,7 +30,7 @@ I created some mockups to make important design choices like coloring, layout, e
 
 ## License
 
-### MIT
+### MIT License
 
 Copyright © 2024, AverageOrangeCat
 
