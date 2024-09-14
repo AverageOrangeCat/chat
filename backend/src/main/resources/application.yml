@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: jdbc_driven_setup
+
+  datasource:
+    url: jdbc:postgresql://database:5432/database
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+
+  flyway:
+    enabeld: true
+    basline-on-migrate: true
+    locations: classpath:migrations/*.sql
+
+server:
+  port: 8080
