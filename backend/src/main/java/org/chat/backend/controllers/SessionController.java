@@ -1,7 +1,5 @@
 package org.chat.backend.controllers;
 
-import java.util.Optional;
-
 import org.chat.backend.exceptions.InvalidLoginAttemptException;
 import org.chat.backend.exceptions.SessionNotFoundException;
 import org.chat.backend.services.session.SessionLoginModel;

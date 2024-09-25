@@ -1,11 +1,9 @@
 package org.chat.backend.repositories;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.chat.backend.services.credentials.CredentialsCreateView;
 import org.chat.backend.services.credentials.CredentialsView;
-import org.chat.backend.services.user.User;
 import org.chat.backend.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

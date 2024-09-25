@@ -1,6 +1,5 @@
 package org.chat.backend.repositories;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.chat.backend.services.session.SessionLoginView;
