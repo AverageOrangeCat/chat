@@ -16,7 +16,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/api/session")
+@RequestMapping("/session")
 public class SessionController {
 
     @Autowired

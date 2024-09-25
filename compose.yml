@@ -8,13 +8,37 @@ services:
     ports:
       - "5432:5432"
 
-  application:
+  backend:
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: dockerfile-backend
     env_file:
       - enviroment.env
     depends_on:
       - database
+    ports:
+      - "4200:4200"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: dockerfile-frontend
+    env_file:
+      - enviroment.env
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+  reverse-proxy:
+    build:
+      context: .
+      dockerfile: dockerfile-revserse-proxy
+    env_file:
+      - enviroment.env
+    depends_on:
+      - database
+      - backend
+      - frontend
     ports:
       - "8080:8080"

@@ -1,2 +1,6 @@
 # Enviroment
 enviroment.env
+
+# IDEs and editors
+.idea
+.vscode

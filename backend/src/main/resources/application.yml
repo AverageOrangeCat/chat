@@ -23,4 +23,4 @@ spring:
     locations: classpath:migrations/*.sql
 
 server:
-  port: 8080
+  port: 4200

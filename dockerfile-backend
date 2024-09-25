@@ -1,0 +1,9 @@
+FROM maven:3.9-eclipse-temurin-22
+
+WORKDIR /backend
+COPY ./backend /backend
+
+RUN mvn clean
+RUN mvn package
+
+CMD java -jar target/backend-1.0-SNAPSHOT.jar

@@ -1,0 +1,6 @@
+FROM nginx:1.27-alpine3.20
+
+WORKDIR /etc/nginx/conf.d
+COPY ./reverse_proxy /etc/nginx/conf.d
+
+CMD ["nginx", "-g", "daemon off;"]
