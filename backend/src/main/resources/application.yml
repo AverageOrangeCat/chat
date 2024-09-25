@@ -1,3 +1,7 @@
+logging:
+  level:
+    root: "debug"
+
 spring:
   application:
     name: jdbc_driven_setup
@@ -6,6 +10,12 @@ spring:
     url: jdbc:postgresql://database:5432/database
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
+
+    hikari:
+      minimumIdle: 5
+      maximumPoolSize: 5
+      idleTimeout: 100000
+      maxLifetime: 50000
 
   flyway:
     enabeld: true

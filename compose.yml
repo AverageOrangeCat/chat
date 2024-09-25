@@ -3,11 +3,8 @@ services:
     image: postgres:16
     environment:
       POSTGRES_DB: database
-      POSTGRES_USER: /run/secrets/database_username
-      POSTGRES_PASSWORD: /run/secrets/database_password
-    secrets:
-      - database_username
-      - database_password
+    env_file:
+      - enviroment.env
     ports:
       - "5432:5432"
 
@@ -15,19 +12,9 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-    environment:
-      DATABASE_USERNAME: /run/secrets/database_username
-      DATABASE_PASSWORD: /run/secrets/database_password
-    secrets:
-      - database_username
-      - database_password
+    env_file:
+      - enviroment.env
     depends_on:
       - database
     ports:
       - "8080:8080"
-
-secrets:
-  database_username:
-    file: ./secrets/database_username.txt
-  database_password:
-    file: ./secrets/database_password.txt
