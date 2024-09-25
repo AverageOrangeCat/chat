@@ -1,8 +1,6 @@
 package org.chat.backend.services.session;
 
-import org.chat.backend.services.View;
-
-public class SessionView implements View<SessionModel> {
+public class SessionView {
 
     public final Long id;
 
@@ -16,10 +14,8 @@ public class SessionView implements View<SessionModel> {
         this.usertag = usertag;
     }
 
-    @Override
     public SessionModel toModel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toModel'");
+        return new SessionModel(bearToken, usertag);
     }
 
 }

@@ -2,15 +2,21 @@ package org.chat.backend.services.credentials;
 
 import java.util.Optional;
 
-import org.chat.backend.services.Model;
-
-public class CredentialsUpdateModel implements Model<CredentialsUpdateView> {
+public class CredentialsUpdateModel {
 
     public final Optional<String> optionalUsertag;
 
     public final Optional<String> optionalUsername;
 
     public final Optional<String> optionalPassword;
+
+    // Implemented for jacksons deserialization actions
+
+    public CredentialsUpdateModel() {
+        this.optionalUsertag = Optional.empty();
+        this.optionalUsername = Optional.empty();
+        this.optionalPassword = Optional.empty();
+    }
 
     public CredentialsUpdateModel(
             Optional<String> optionalUsertag,
@@ -21,10 +27,11 @@ public class CredentialsUpdateModel implements Model<CredentialsUpdateView> {
         this.optionalPassword = optionalPassword;
     }
 
-    @Override
     public CredentialsUpdateView toView() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toView'");
+        return new CredentialsUpdateView(
+                optionalUsertag,
+                optionalUsername,
+                optionalPassword);
     }
 
 }

@@ -2,21 +2,31 @@ package org.chat.backend.services.user;
 
 import org.chat.backend.services.credentials.CredentialsView;
 import org.chat.backend.services.session.SessionView;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class User {
 
-    public final SessionView sessionView;
+    public SessionView sessionView = new SessionView(0L, "", "");
 
-    public final CredentialsView credentialsView;
+    public CredentialsView credentialsView = new CredentialsView(0L, "", "", "");
 
-    public User(SessionView sessionView, CredentialsView credentialsView) {
+    public User setSessionView(SessionView sessionView) {
         this.sessionView = sessionView;
+        return this;
+    }
+
+    public SessionView getSessionView() {
+        return sessionView;
+    }
+
+    public User setCredentialsView(CredentialsView credentialsView) {
         this.credentialsView = credentialsView;
+        return this;
+    }
+
+    public CredentialsView getCredentialsView() {
+        return credentialsView;
     }
 
 }

@@ -1,18 +1,14 @@
 package org.chat.backend.services.session;
 
-public class SessionModel {
+public class SessionLoginView {
 
     public final String bearToken;
 
     public final String usertag;
 
-    public SessionModel(String bearToken, String usertag) {
+    public SessionLoginView(String bearToken, String usertag) {
         this.bearToken = bearToken;
         this.usertag = usertag;
     }
-
-    public SessionView toView() {
-        return new SessionView(0L, bearToken, usertag);
-    }
-
+    
 }

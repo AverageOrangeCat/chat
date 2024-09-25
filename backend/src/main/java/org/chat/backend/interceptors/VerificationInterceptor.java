@@ -7,23 +7,21 @@ import org.chat.backend.exceptions.CredentialsNotFoundException;
 import org.chat.backend.exceptions.SessionNotFoundException;
 import org.chat.backend.repositories.CredentialsRepository;
 import org.chat.backend.repositories.SessionRepository;
-import org.chat.backend.services.credentials.CredentialsView;
-import org.chat.backend.services.session.SessionView;
 import org.chat.backend.services.user.User;
+import org.chat.backend.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class VerificationInterceptor implements HandlerInterceptor {
 
-    // Currently logged in user
-
     @Autowired
-    private User user;
+    private UserService userService;
 
     @Autowired
     private SessionRepository sessionRepository;
@@ -34,20 +32,24 @@ public class VerificationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws BearTokenNotProvidedException, SessionNotFoundException, CredentialsNotFoundException {
+        var bearToken = Optional
+                .ofNullable(request.getHeader("Authorization"))
+                .orElseThrow(() -> new BearTokenNotProvidedException())
+                .replace("Bearer ", "");
 
-        String bearToken = Optional
-                .ofNullable(request.getHeader("bear_token"))
-                .orElseThrow(() -> new BearTokenNotProvidedException());
-
-        SessionView sessionView = sessionRepository
+        var sessionView = sessionRepository
                 .getView(bearToken)
                 .orElseThrow(() -> new SessionNotFoundException(bearToken));
 
-        CredentialsView credentialsView = credentialsRepository
+        var credentialsView = credentialsRepository
                 .getView(sessionView.usertag)
                 .orElseThrow(() -> new CredentialsNotFoundException(sessionView.usertag));
 
-        user = new User(sessionView, credentialsView);
+        var user = new User()
+                .setSessionView(sessionView)
+                .setCredentialsView(credentialsView);
+
+        userService.setUser(user);
         return true;
     }
 

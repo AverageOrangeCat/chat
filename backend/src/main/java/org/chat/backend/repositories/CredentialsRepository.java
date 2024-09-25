@@ -1,10 +1,12 @@
 package org.chat.backend.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.chat.backend.services.credentials.CredentialsCreateView;
 import org.chat.backend.services.credentials.CredentialsView;
 import org.chat.backend.services.user.User;
+import org.chat.backend.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,24 +15,45 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CredentialsRepository {
 
-    // Currently logged in user
-
     @Autowired
-    private User user;
+    private UserService userService;
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public Optional<CredentialsView> getView(String usertag) {
-        return namedParameterJdbcTemplate.queryForObject(
+        var credentialViews = namedParameterJdbcTemplate.query(
                 "SELECT * FROM credentials WHERE usertag = :usertag",
                 new MapSqlParameterSource("usertag", usertag),
-                (resultSet, rowNumber) -> Optional.of(
-                        new CredentialsView(
-                                resultSet.getLong("credential_id"),
-                                resultSet.getString("usertag"),
-                                resultSet.getString("username"),
-                                resultSet.getString("password"))));
+                (resultSet, rowNumber) -> new CredentialsView(
+                        resultSet.getLong("credential_id"),
+                        resultSet.getString("usertag"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password")));
+
+        return credentialViews.isEmpty()
+                ? Optional.empty()
+                : Optional.of(credentialViews.get(0));
+    }
+
+    public Optional<CredentialsView> getView(String usertag, String password) {
+        var credentialViews = namedParameterJdbcTemplate.query(
+                """
+                        SELECT * FROM credentials WHERE usertag = :usertag
+                        AND password = :password
+                        """,
+                new MapSqlParameterSource()
+                        .addValue("usertag", usertag)
+                        .addValue("password", password),
+                (resultSet, rowNumber) -> new CredentialsView(
+                        resultSet.getLong("credential_id"),
+                        resultSet.getString("usertag"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password")));
+
+        return credentialViews.isEmpty()
+                ? Optional.empty()
+                : Optional.of(credentialViews.get(0));
     }
 
     public Integer create(CredentialsCreateView credentialsCreateView) {
@@ -46,6 +69,7 @@ public class CredentialsRepository {
     }
 
     public Integer updateUsertag(String usertag) {
+        var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 """
                         UPDATE credentials SET usertag = :usertag
@@ -57,6 +81,7 @@ public class CredentialsRepository {
     }
 
     public Integer updateUsername(String username) {
+        var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 """
                         UPDATE credentials SET username = :username
@@ -68,6 +93,7 @@ public class CredentialsRepository {
     }
 
     public Integer updatePassword(String password) {
+        var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 """
                         UPDATE credentials SET password = :password
@@ -79,6 +105,7 @@ public class CredentialsRepository {
     }
 
     public Integer delete() {
+        var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 "DELETE FROM credentials WHERE credential_id = :credential_id",
                 new MapSqlParameterSource("credential_id", user.credentialsView.id));

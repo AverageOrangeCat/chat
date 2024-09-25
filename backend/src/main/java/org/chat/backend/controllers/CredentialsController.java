@@ -1,7 +1,6 @@
 package org.chat.backend.controllers;
 
-import java.util.Optional;
-
+import org.chat.backend.exceptions.CredentialsNotFoundException;
 import org.chat.backend.services.credentials.CredentialsCreateModel;
 import org.chat.backend.services.credentials.CredentialsModel;
 import org.chat.backend.services.credentials.CredentialsService;
@@ -24,7 +23,8 @@ public class CredentialsController {
     private CredentialsService credentialsService;
 
     @GetMapping("/{usertag}")
-    public Optional<CredentialsModel> getModel(@PathVariable String usertag) {
+    public CredentialsModel getModel(@PathVariable("usertag") String usertag)
+            throws CredentialsNotFoundException {
         return credentialsService.getModel(usertag);
     }
 

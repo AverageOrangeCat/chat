@@ -1,8 +1,6 @@
 package org.chat.backend.services.credentials;
 
-import org.chat.backend.services.View;
-
-public class CredentialsCreateView implements View<CredentialsCreateModel> {
+public class CredentialsCreateView {
 
     public final String usertag;
 
@@ -14,12 +12,6 @@ public class CredentialsCreateView implements View<CredentialsCreateModel> {
         this.usertag = usertag;
         this.username = username;
         this.password = password;
-    }
-
-    @Override
-    public CredentialsCreateModel toModel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toModel'");
     }
 
 }

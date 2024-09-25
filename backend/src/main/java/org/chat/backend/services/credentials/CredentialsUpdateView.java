@@ -2,9 +2,7 @@ package org.chat.backend.services.credentials;
 
 import java.util.Optional;
 
-import org.chat.backend.services.View;
-
-public class CredentialsUpdateView implements View<CredentialsUpdateModel> {
+public class CredentialsUpdateView {
 
     public final Optional<String> optionalUsertag;
 
@@ -19,12 +17,6 @@ public class CredentialsUpdateView implements View<CredentialsUpdateModel> {
         this.optionalUsertag = optionalUsertag;
         this.optionalUsername = optionalUsername;
         this.optionalPassword = optionalPassword;
-    }
-
-    @Override
-    public CredentialsUpdateModel toModel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toModel'");
     }
 
 }

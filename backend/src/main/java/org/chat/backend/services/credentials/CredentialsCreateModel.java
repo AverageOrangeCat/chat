@@ -1,8 +1,6 @@
 package org.chat.backend.services.credentials;
 
-import org.chat.backend.services.Model;
-
-public class CredentialsCreateModel implements Model<CredentialsCreateView> {
+public class CredentialsCreateModel {
 
     public final String usertag;
 
@@ -10,16 +8,22 @@ public class CredentialsCreateModel implements Model<CredentialsCreateView> {
 
     public final String password;
 
+    // Implemented for jacksons deserialization actions
+
+    public CredentialsCreateModel() {
+        this.usertag = "";
+        this.username = "";
+        this.password = "";
+    }
+
     public CredentialsCreateModel(String usertag, String username, String password) {
         this.usertag = usertag;
         this.username = username;
         this.password = password;
     }
 
-    @Override
     public CredentialsCreateView toView() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toView'");
+        return new CredentialsCreateView(usertag, username, password);
     }
 
 }
