@@ -1,9 +1,12 @@
 package org.chat.backend.services.session;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.cxf.rt.security.crypto.CryptoUtils;
 import org.chat.backend.exceptions.InvalidLoginAttemptException;
 import org.chat.backend.repositories.CredentialsRepository;
-import org.chat.backend.services.time.TimeService;
 
 public class SessionLoginModel {
 
@@ -31,11 +34,27 @@ public class SessionLoginModel {
 
     public SessionLoginView toView(CredentialsRepository credentialsRepository)
             throws InvalidLoginAttemptException {
-        credentialsRepository
-                .getView(usertag, password)
+        var passwordSalt = credentialsRepository
+                .getPasswordSalt(usertag)
                 .orElseThrow(() -> new InvalidLoginAttemptException());
 
-        String bearToken = DigestUtils.sha256Hex(usertag + password + TimeService.now());
+        var passwordBytes = password.getBytes(StandardCharsets.UTF_8);
+        var passwordHash = DigestUtils.sha3_256(
+                ByteBuffer.allocate(passwordSalt.length + passwordBytes.length)
+                        .put(passwordSalt)
+                        .put(passwordBytes)
+                        .array());
+
+        credentialsRepository
+                .getCredentialsView(usertag, passwordSalt, passwordHash)
+                .orElseThrow(() -> new InvalidLoginAttemptException());
+
+        var bearTokenSalt = CryptoUtils.generateSecureRandomBytes(16);
+        var bearToken = DigestUtils.sha3_256Hex(
+                ByteBuffer.allocate(bearTokenSalt.length + passwordHash.length)
+                        .put(bearTokenSalt)
+                        .put(passwordHash)
+                        .array());
 
         return new SessionLoginView()
                 .setUsertag(usertag)

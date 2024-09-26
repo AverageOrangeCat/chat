@@ -19,7 +19,7 @@ public class SessionRepository {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public Optional<SessionView> getView(String bearToken) {
+    public Optional<SessionView> getSessionView(String bearToken) {
         var sessionViews = namedParameterJdbcTemplate.query(
                 "SELECT * FROM sessions WHERE bear_token = :bear_token",
                 new MapSqlParameterSource("bear_token", bearToken),

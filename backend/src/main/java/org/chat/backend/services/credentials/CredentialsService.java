@@ -11,9 +11,9 @@ public class CredentialsService {
     @Autowired
     private CredentialsRepository credentialsRepository;
 
-    public CredentialsModel getModel(String usertag) throws CredentialsNotFoundException {
+    public CredentialsModel getCredentialsModel(String usertag) throws CredentialsNotFoundException {
         var credentialsView = credentialsRepository
-                .getView(usertag)
+                .getCredentialsView(usertag)
                 .orElseThrow(() -> new CredentialsNotFoundException());
         return credentialsView.toModel();
     }

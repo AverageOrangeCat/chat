@@ -1,5 +1,11 @@
 package org.chat.backend.services.credentials;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.cxf.rt.security.crypto.CryptoUtils;
+
 public class CredentialsCreateModel {
 
     private String usertag = "";
@@ -36,10 +42,19 @@ public class CredentialsCreateModel {
     }
 
     public CredentialsCreateView toView() {
+        var passwordSalt = CryptoUtils.generateSecureRandomBytes(16);
+        var passwordBytes = password.getBytes(StandardCharsets.UTF_8);
+        var passwordHash = DigestUtils.sha3_256(
+                ByteBuffer.allocate(passwordSalt.length + passwordBytes.length)
+                        .put(passwordSalt)
+                        .put(passwordBytes)
+                        .array());
+
         return new CredentialsCreateView()
                 .setUsertag(usertag)
                 .setUsername(username)
-                .setPassword(password);
+                .setPasswordSalt(passwordSalt)
+                .setPasswordHash(passwordHash);
     }
 
 }

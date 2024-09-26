@@ -23,9 +23,9 @@ public class CredentialsController {
     private CredentialsService credentialsService;
 
     @GetMapping("/{usertag}")
-    public CredentialsModel getModel(@PathVariable("usertag") String usertag)
+    public CredentialsModel getCredentialsModel(@PathVariable("usertag") String usertag)
             throws CredentialsNotFoundException {
-        return credentialsService.getModel(usertag);
+        return credentialsService.getCredentialsModel(usertag);
     }
 
     @PostMapping("/create")

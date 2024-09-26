@@ -37,11 +37,11 @@ public class VerificationInterceptor implements HandlerInterceptor {
                 .replace("Bearer ", "");
 
         var sessionView = sessionRepository
-                .getView(bearToken)
+                .getSessionView(bearToken)
                 .orElseThrow(() -> new SessionNotFoundException(bearToken));
 
         var credentialsView = credentialsRepository
-                .getView(sessionView.getUsertag())
+                .getCredentialsView(sessionView.getUsertag())
                 .orElseThrow(() -> new CredentialsNotFoundException(sessionView.getUsertag()));
 
         var user = new User()
