@@ -7,20 +7,26 @@ import org.chat.backend.services.time.TimeService;
 
 public class SessionLoginModel {
 
-    public final String usertag;
+    private String usertag = "";
 
-    public final String password;
+    private String password = "";
 
-    // Implemented for jacksons deserialization actions
-
-    public SessionLoginModel() {
-        this.usertag = "";
-        this.password = "";
+    public SessionLoginModel setUsertag(String usertag) {
+        this.usertag = usertag;
+        return this;
     }
 
-    public SessionLoginModel(String usertag, String password) {
-        this.usertag = usertag;
+    public String getUsertag() {
+        return usertag;
+    }
+
+    public SessionLoginModel setPassword(String password) {
         this.password = password;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public SessionLoginView toView(CredentialsRepository credentialsRepository)
@@ -31,7 +37,9 @@ public class SessionLoginModel {
 
         String bearToken = DigestUtils.sha256Hex(usertag + password + TimeService.now());
 
-        return new SessionLoginView(bearToken, usertag);
+        return new SessionLoginView()
+                .setUsertag(usertag)
+                .setBearToken(bearToken);
     }
 
 }

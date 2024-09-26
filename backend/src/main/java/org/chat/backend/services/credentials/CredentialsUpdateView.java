@@ -4,19 +4,47 @@ import java.util.Optional;
 
 public class CredentialsUpdateView {
 
-    public final Optional<String> optionalUsertag;
+    private Optional<String> optionalUsertag = Optional.empty();
 
-    public final Optional<String> optionalUsername;
+    private Optional<String> optionalUsername = Optional.empty();
 
-    public final Optional<String> optionalPassword;
+    private Optional<String> optionalPassword = Optional.empty();
 
-    public CredentialsUpdateView(
-            Optional<String> optionalUsertag,
-            Optional<String> optionalUsername,
-            Optional<String> optionalPassword) {
+    public CredentialsUpdateView setOptionalUsertag(
+            Optional<String> optionalUsertag) {
         this.optionalUsertag = optionalUsertag;
+        return this;
+    }
+
+    public Optional<String> getOptionalUsertag() {
+        return optionalUsertag;
+    }
+
+    public CredentialsUpdateView setOptionalUsername(
+            Optional<String> optionalUsername) {
         this.optionalUsername = optionalUsername;
+        return this;
+    }
+
+    public Optional<String> getOptionalUsername() {
+        return optionalUsername;
+    }
+
+    public CredentialsUpdateView setOptionalPassword(
+            Optional<String> optionalPassword) {
         this.optionalPassword = optionalPassword;
+        return this;
+    }
+
+    public Optional<String> getOptionalPassword() {
+        return optionalPassword;
+    }
+
+    public CredentialsUpdateModel toModel() {
+        return new CredentialsUpdateModel()
+                .setOptionalUsertag(optionalUsertag)
+                .setOptionalUsername(optionalUsername)
+                .setOptionalPassword(optionalPassword);
     }
 
 }

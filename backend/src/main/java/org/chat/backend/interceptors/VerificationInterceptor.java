@@ -41,8 +41,8 @@ public class VerificationInterceptor implements HandlerInterceptor {
                 .orElseThrow(() -> new SessionNotFoundException(bearToken));
 
         var credentialsView = credentialsRepository
-                .getView(sessionView.usertag)
-                .orElseThrow(() -> new CredentialsNotFoundException(sessionView.usertag));
+                .getView(sessionView.getUsertag())
+                .orElseThrow(() -> new CredentialsNotFoundException(sessionView.getUsertag()));
 
         var user = new User()
                 .setSessionView(sessionView)

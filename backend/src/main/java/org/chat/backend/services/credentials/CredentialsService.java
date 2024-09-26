@@ -24,9 +24,9 @@ public class CredentialsService {
 
     public void update(CredentialsUpdateModel credentialsUpdateModel) {
         var credentialsUpdateView = credentialsUpdateModel.toView();
-        credentialsUpdateView.optionalUsertag.map((u) -> credentialsRepository.updateUsertag(u));
-        credentialsUpdateView.optionalUsername.map((u) -> credentialsRepository.updateUsername(u));
-        credentialsUpdateView.optionalPassword.map((p) -> credentialsRepository.updatePassword(p));
+        credentialsUpdateView.getOptionalUsertag().map((u) -> credentialsRepository.updateUsertag(u));
+        credentialsUpdateView.getOptionalUsername().map((u) -> credentialsRepository.updateUsername(u));
+        credentialsUpdateView.getOptionalPassword().map((p) -> credentialsRepository.updatePassword(p));
     }
 
     public void delete() {

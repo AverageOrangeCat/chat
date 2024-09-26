@@ -2,20 +2,32 @@ package org.chat.backend.services.credentials;
 
 public class CredentialsModel {
 
-    public final String usertag;
+    private String usertag = "";
 
-    public final String username;
+    private String username = "";
 
-    // Implemented for jacksons deserialization actions
-
-    public CredentialsModel() {
-        this.usertag = "";
-        this.username = "";
+    public CredentialsModel setUsertag(String usertag) {
+        this.usertag = usertag;
+        return this;
     }
 
-    public CredentialsModel(String usertag, String username) {
-        this.usertag = usertag;
+    public String getUsertag() {
+        return usertag;
+    }
+
+    public CredentialsModel setUsername(String username) {
         this.username = username;
+        return this;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public CredentialsView toView() {
+        return new CredentialsView()
+                .setUsertag(usertag)
+                .setUsername(username);
     }
 
 }

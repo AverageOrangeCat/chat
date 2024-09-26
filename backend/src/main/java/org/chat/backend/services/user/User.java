@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class User {
 
-    public SessionView sessionView = new SessionView(0L, "", "");
+    private SessionView sessionView = new SessionView();
 
-    public CredentialsView credentialsView = new CredentialsView(0L, "", "", "");
+    private CredentialsView credentialsView = new CredentialsView();
 
     public User setSessionView(SessionView sessionView) {
         this.sessionView = sessionView;

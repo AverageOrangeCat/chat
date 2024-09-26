@@ -4,34 +4,47 @@ import java.util.Optional;
 
 public class CredentialsUpdateModel {
 
-    public final Optional<String> optionalUsertag;
+    private Optional<String> optionalUsertag = Optional.empty();
 
-    public final Optional<String> optionalUsername;
+    private Optional<String> optionalUsername = Optional.empty();
 
-    public final Optional<String> optionalPassword;
+    private Optional<String> optionalPassword = Optional.empty();
 
-    // Implemented for jacksons deserialization actions
-
-    public CredentialsUpdateModel() {
-        this.optionalUsertag = Optional.empty();
-        this.optionalUsername = Optional.empty();
-        this.optionalPassword = Optional.empty();
+    public CredentialsUpdateModel setOptionalUsertag(
+            Optional<String> optionalUsertag) {
+        this.optionalUsertag = optionalUsertag;
+        return this;
     }
 
-    public CredentialsUpdateModel(
-            Optional<String> optionalUsertag,
-            Optional<String> optionalUsername,
-            Optional<String> optionalPassword) {
-        this.optionalUsertag = optionalUsertag;
+    public Optional<String> getOptionalUsertag() {
+        return optionalUsertag;
+    }
+
+    public CredentialsUpdateModel setOptionalUsername(
+            Optional<String> optionalUsername) {
         this.optionalUsername = optionalUsername;
+        return this;
+    }
+
+    public Optional<String> getOptionalUsername() {
+        return optionalUsername;
+    }
+
+    public CredentialsUpdateModel setOptionalPassword(
+            Optional<String> optionalPassword) {
         this.optionalPassword = optionalPassword;
+        return this;
+    }
+
+    public Optional<String> getOptionalPassword() {
+        return optionalPassword;
     }
 
     public CredentialsUpdateView toView() {
-        return new CredentialsUpdateView(
-                optionalUsertag,
-                optionalUsername,
-                optionalPassword);
+        return new CredentialsUpdateView()
+                .setOptionalUsertag(optionalUsertag)
+                .setOptionalUsername(optionalUsername)
+                .setOptionalPassword(optionalPassword);
     }
 
 }

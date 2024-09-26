@@ -23,10 +23,10 @@ public class SessionRepository {
         var sessionViews = namedParameterJdbcTemplate.query(
                 "SELECT * FROM sessions WHERE bear_token = :bear_token",
                 new MapSqlParameterSource("bear_token", bearToken),
-                (resultSet, rowNumber) -> new SessionView(
-                        resultSet.getLong("session_id"),
-                        resultSet.getString("bear_token"),
-                        resultSet.getString("usertag")));
+                (resultSet, rowNumber) -> new SessionView()
+                        .setId(resultSet.getLong("session_id"))
+                        .setBearToken(resultSet.getString("bear_token"))
+                        .setUsertag(resultSet.getString("usertag")));
 
         return sessionViews.isEmpty()
                 ? Optional.empty()
@@ -41,12 +41,12 @@ public class SessionRepository {
                         RETURNING *
                         """,
                 new MapSqlParameterSource()
-                        .addValue("bear_token", sessionLoginView.bearToken)
-                        .addValue("usertag", sessionLoginView.usertag),
-                (resultSet, rowNumber) -> new SessionView(
-                        resultSet.getLong("session_id"),
-                        resultSet.getString("bear_token"),
-                        resultSet.getString("usertag")));
+                        .addValue("bear_token", sessionLoginView.getBearToken())
+                        .addValue("usertag", sessionLoginView.getUsertag()),
+                (resultSet, rowNumber) -> new SessionView()
+                        .setId(resultSet.getLong("session_id"))
+                        .setBearToken(resultSet.getString("bear_token"))
+                        .setUsertag(resultSet.getString("usertag")));
 
         return sessionViews.isEmpty()
                 ? Optional.empty()
@@ -57,7 +57,9 @@ public class SessionRepository {
         var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 "DELETE FROM sessions WHERE session_id = :session_id",
-                new MapSqlParameterSource("session_id", user.sessionView.id));
+                new MapSqlParameterSource("session_id", user
+                        .getSessionView()
+                        .getId()));
     }
 
 }

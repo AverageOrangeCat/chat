@@ -26,7 +26,7 @@ public class SessionController {
     public void login(@RequestBody SessionLoginModel sessionLoginModel, HttpServletResponse response)
             throws InvalidLoginAttemptException, SessionNotFoundException {
         SessionModel sessionModel = sessionService.login(sessionLoginModel);
-        Cookie sessionCookie = new Cookie("Authorization", sessionModel.bearToken);
+        Cookie sessionCookie = new Cookie("Authorization", sessionModel.getBearToken());
         response.addCookie(sessionCookie);
     }
 

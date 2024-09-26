@@ -2,17 +2,32 @@ package org.chat.backend.services.session;
 
 public class SessionModel {
 
-    public final String bearToken;
+    private String bearToken = "";
 
-    public final String usertag;
+    private String usertag = "";
 
-    public SessionModel(String bearToken, String usertag) {
+    public SessionModel setBearToken(String bearToken) {
         this.bearToken = bearToken;
+        return this;
+    }
+
+    public String getBearToken() {
+        return bearToken;
+    }
+
+    public SessionModel setUsertag(String usertag) {
         this.usertag = usertag;
+        return this;
+    }
+
+    public String getUsertag() {
+        return usertag;
     }
 
     public SessionView toView() {
-        return new SessionView(0L, bearToken, usertag);
+        return new SessionView()
+                .setBearToken(bearToken)
+                .setUsertag(usertag);
     }
 
 }

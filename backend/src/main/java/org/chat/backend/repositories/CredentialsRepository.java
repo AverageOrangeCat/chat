@@ -23,11 +23,11 @@ public class CredentialsRepository {
         var credentialViews = namedParameterJdbcTemplate.query(
                 "SELECT * FROM credentials WHERE usertag = :usertag",
                 new MapSqlParameterSource("usertag", usertag),
-                (resultSet, rowNumber) -> new CredentialsView(
-                        resultSet.getLong("credential_id"),
-                        resultSet.getString("usertag"),
-                        resultSet.getString("username"),
-                        resultSet.getString("password")));
+                (resultSet, rowNumber) -> new CredentialsView()
+                        .setId(resultSet.getLong("credential_id"))
+                        .setUsertag(resultSet.getString("usertag"))
+                        .setUsername(resultSet.getString("username"))
+                        .setPassword(resultSet.getString("password")));
 
         return credentialViews.isEmpty()
                 ? Optional.empty()
@@ -43,11 +43,11 @@ public class CredentialsRepository {
                 new MapSqlParameterSource()
                         .addValue("usertag", usertag)
                         .addValue("password", password),
-                (resultSet, rowNumber) -> new CredentialsView(
-                        resultSet.getLong("credential_id"),
-                        resultSet.getString("usertag"),
-                        resultSet.getString("username"),
-                        resultSet.getString("password")));
+                (resultSet, rowNumber) -> new CredentialsView()
+                        .setId(resultSet.getLong("credential_id"))
+                        .setUsertag(resultSet.getString("usertag"))
+                        .setUsername(resultSet.getString("username"))
+                        .setPassword(resultSet.getString("password")));
 
         return credentialViews.isEmpty()
                 ? Optional.empty()
@@ -61,9 +61,9 @@ public class CredentialsRepository {
                         VALUES (:usertag, :username, :password)
                         """,
                 new MapSqlParameterSource()
-                        .addValue("usertag", credentialsCreateView.usertag)
-                        .addValue("username", credentialsCreateView.username)
-                        .addValue("password", credentialsCreateView.password));
+                        .addValue("usertag", credentialsCreateView.getUsertag())
+                        .addValue("username", credentialsCreateView.getUsername())
+                        .addValue("password", credentialsCreateView.getPassword()));
     }
 
     public Integer updateUsertag(String usertag) {
@@ -74,7 +74,9 @@ public class CredentialsRepository {
                         WHERE credential_id = :credential_id
                         """,
                 new MapSqlParameterSource()
-                        .addValue("credential_id", user.credentialsView.id)
+                        .addValue("credential_id", user
+                                .getCredentialsView()
+                                .getId())
                         .addValue("usertag", usertag));
     }
 
@@ -86,7 +88,9 @@ public class CredentialsRepository {
                         WHERE credential_id = :credential_id
                         """,
                 new MapSqlParameterSource()
-                        .addValue("credential_id", user.credentialsView.id)
+                        .addValue("credential_id", user
+                                .getCredentialsView()
+                                .getId())
                         .addValue("username", username));
     }
 
@@ -98,7 +102,9 @@ public class CredentialsRepository {
                         WHERE credential_id = :credential_id
                         """,
                 new MapSqlParameterSource()
-                        .addValue("credential_id", user.credentialsView.id)
+                        .addValue("credential_id", user
+                                .getCredentialsView()
+                                .getId())
                         .addValue("password", password));
     }
 
@@ -106,7 +112,9 @@ public class CredentialsRepository {
         var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 "DELETE FROM credentials WHERE credential_id = :credential_id",
-                new MapSqlParameterSource("credential_id", user.credentialsView.id));
+                new MapSqlParameterSource("credential_id", user
+                        .getCredentialsView()
+                        .getId()));
     }
 
 }
