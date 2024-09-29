@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import org.chat.backend.exceptions.InvalidLoginAttemptException;
 import org.chat.backend.exceptions.SessionNotFoundException;
 import org.chat.backend.services.session.SessionLoginModel;
-import org.chat.backend.services.session.SessionModel;
 import org.chat.backend.services.session.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

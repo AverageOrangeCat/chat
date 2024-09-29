@@ -1,10 +1,6 @@
 package org.chat.backend.services.credentials;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
-
-import org.chat.backend.utils.crypto.CryptoUtils;
 
 public class CredentialsUpdateModel {
 

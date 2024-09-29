@@ -1,10 +1,5 @@
 package org.chat.backend.services.credentials;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
-import org.chat.backend.utils.crypto.CryptoUtils;
-
 public class CredentialsCreateModel {
 
     private String usertag = "";
