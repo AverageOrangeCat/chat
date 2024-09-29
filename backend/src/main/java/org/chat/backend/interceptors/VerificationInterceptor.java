@@ -7,8 +7,7 @@ import org.chat.backend.exceptions.CredentialsNotFoundException;
 import org.chat.backend.exceptions.SessionNotFoundException;
 import org.chat.backend.repositories.CredentialsRepository;
 import org.chat.backend.repositories.SessionRepository;
-import org.chat.backend.services.user.User;
-import org.chat.backend.services.user.UserService;
+import org.chat.backend.services.current_user.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -20,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class VerificationInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private UserService userService;
+    private CurrentUser currentUser;
 
     @Autowired
     private SessionRepository sessionRepository;
@@ -45,11 +44,10 @@ public class VerificationInterceptor implements HandlerInterceptor {
                 .getCredentialsView(sessionView.getUsertag())
                 .orElseThrow(() -> new CredentialsNotFoundException(sessionView.getUsertag()));
 
-        var user = new User()
+        currentUser
                 .setSessionView(sessionView)
                 .setCredentialsView(credentialsView);
 
-        userService.setUser(user);
         return true;
     }
 

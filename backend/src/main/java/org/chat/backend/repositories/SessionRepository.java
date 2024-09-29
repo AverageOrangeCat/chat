@@ -2,9 +2,9 @@ package org.chat.backend.repositories;
 
 import java.util.Optional;
 
+import org.chat.backend.services.current_user.CurrentUser;
 import org.chat.backend.services.session.SessionLoginView;
 import org.chat.backend.services.session.SessionView;
-import org.chat.backend.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public class SessionRepository {
 
     @Autowired
-    private UserService userService;
+    private CurrentUser currentUser;
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -54,10 +54,9 @@ public class SessionRepository {
     }
 
     public Integer logout() {
-        var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 "DELETE FROM sessions WHERE session_id = :session_id",
-                new MapSqlParameterSource("session_id", user
+                new MapSqlParameterSource("session_id", currentUser
                         .getSessionView()
                         .getId()));
     }

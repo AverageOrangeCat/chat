@@ -1,17 +1,19 @@
-package org.chat.backend.services.user;
+package org.chat.backend.services.current_user;
 
 import org.chat.backend.services.credentials.CredentialsView;
 import org.chat.backend.services.session.SessionView;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Component
-public class User {
+@RequestScope
+public class CurrentUser {
 
     private SessionView sessionView = new SessionView();
 
     private CredentialsView credentialsView = new CredentialsView();
 
-    public User setSessionView(SessionView sessionView) {
+    public CurrentUser setSessionView(SessionView sessionView) {
         this.sessionView = sessionView;
         return this;
     }
@@ -20,7 +22,7 @@ public class User {
         return sessionView;
     }
 
-    public User setCredentialsView(CredentialsView credentialsView) {
+    public CurrentUser setCredentialsView(CredentialsView credentialsView) {
         this.credentialsView = credentialsView;
         return this;
     }

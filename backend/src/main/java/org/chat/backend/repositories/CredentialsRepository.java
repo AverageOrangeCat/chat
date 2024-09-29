@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.chat.backend.services.credentials.CredentialsCreateView;
 import org.chat.backend.services.credentials.CredentialsView;
 import org.chat.backend.services.credentials.PasswordView;
-import org.chat.backend.services.user.UserService;
+import org.chat.backend.services.current_user.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public class CredentialsRepository {
 
     @Autowired
-    private UserService userService;
+    private CurrentUser currentUser;
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -66,66 +66,61 @@ public class CredentialsRepository {
     }
 
     public Integer updateUsertag(String usertag) {
-        var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 """
                         UPDATE credentials SET usertag = :usertag
                         WHERE credential_id = :credential_id
                         """,
                 new MapSqlParameterSource()
-                        .addValue("credential_id", user
+                        .addValue("credential_id", currentUser
                                 .getCredentialsView()
                                 .getId())
                         .addValue("usertag", usertag));
     }
 
     public Integer updateUsername(String username) {
-        var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 """
                         UPDATE credentials SET username = :username
                         WHERE credential_id = :credential_id
                         """,
                 new MapSqlParameterSource()
-                        .addValue("credential_id", user
+                        .addValue("credential_id", currentUser
                                 .getCredentialsView()
                                 .getId())
                         .addValue("username", username));
     }
 
     public Integer updatePasswordSalt(String passwordSalt) {
-        var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 """
                         UPDATE credentials SET password_salt = :password_salt
                         WHERE credential_id = :credential_id
                         """,
                 new MapSqlParameterSource()
-                        .addValue("credential_id", user
+                        .addValue("credential_id", currentUser
                                 .getCredentialsView()
                                 .getId())
                         .addValue("password_salt", passwordSalt));
     }
 
     public Integer updatePasswordHash(String passwordHash) {
-        var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 """
                         UPDATE credentials SET password_hash = :password_hash
                         WHERE credential_id = :credential_id
                         """,
                 new MapSqlParameterSource()
-                        .addValue("credential_id", user
+                        .addValue("credential_id", currentUser
                                 .getCredentialsView()
                                 .getId())
                         .addValue("password_hash", passwordHash));
     }
 
     public Integer delete() {
-        var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 "DELETE FROM credentials WHERE credential_id = :credential_id",
-                new MapSqlParameterSource("credential_id", user
+                new MapSqlParameterSource("credential_id", currentUser
                         .getCredentialsView()
                         .getId()));
     }
