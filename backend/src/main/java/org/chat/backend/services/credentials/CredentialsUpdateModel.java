@@ -42,21 +42,4 @@ public class CredentialsUpdateModel {
         return optionalPassword;
     }
 
-    public CredentialsUpdateView toView() throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        var credentialsUpdateView = new CredentialsUpdateView();
-
-        if (optionalPassword.isPresent()) {
-            var passwordSalt = CryptoUtils.generateSecureRandomBytes(16);
-            var passwordHash = CryptoUtils.generateSha256Hash(passwordSalt + optionalPassword.get());
-
-            credentialsUpdateView
-                    .setOptionalPasswordSalt(Optional.of(passwordSalt))
-                    .setOptionalPasswordHash(Optional.of(passwordHash));
-        }
-
-        return credentialsUpdateView
-                .setOptionalUsertag(optionalUsertag)
-                .setOptionalUsername(optionalUsername);
-    }
-
 }

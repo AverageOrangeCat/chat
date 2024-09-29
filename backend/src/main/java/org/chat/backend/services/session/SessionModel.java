@@ -24,10 +24,4 @@ public class SessionModel {
         return usertag;
     }
 
-    public SessionView toView() {
-        return new SessionView()
-                .setBearToken(bearToken)
-                .setUsertag(usertag);
-    }
-
 }

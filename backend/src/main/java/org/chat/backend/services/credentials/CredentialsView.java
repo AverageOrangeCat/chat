@@ -57,10 +57,4 @@ public class CredentialsView {
         return passwordHash;
     }
 
-    public CredentialsModel toModel() {
-        return new CredentialsModel()
-                .setUsertag(usertag)
-                .setUsername(username);
-    }
-
 }

@@ -40,15 +40,4 @@ public class CredentialsCreateModel {
         return password;
     }
 
-    public CredentialsCreateView toView() throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        var passwordSalt = CryptoUtils.generateSecureRandomBytes(16);
-        var passwordHash = CryptoUtils.generateSha256Hash(passwordSalt + password);
-
-        return new CredentialsCreateView()
-                .setUsertag(usertag)
-                .setUsername(username)
-                .setPasswordSalt(passwordSalt)
-                .setPasswordHash(passwordHash);
-    }
-
 }
