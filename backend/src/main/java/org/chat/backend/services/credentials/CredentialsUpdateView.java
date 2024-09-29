@@ -8,10 +8,11 @@ public class CredentialsUpdateView {
 
     private Optional<String> optionalUsername = Optional.empty();
 
-    private Optional<String> optionalPassword = Optional.empty();
+    private Optional<String> optionalPasswordSalt = Optional.empty();
 
-    public CredentialsUpdateView setOptionalUsertag(
-            Optional<String> optionalUsertag) {
+    private Optional<String> optionalPasswordHash = Optional.empty();
+
+    public CredentialsUpdateView setOptionalUsertag(Optional<String> optionalUsertag) {
         this.optionalUsertag = optionalUsertag;
         return this;
     }
@@ -20,8 +21,7 @@ public class CredentialsUpdateView {
         return optionalUsertag;
     }
 
-    public CredentialsUpdateView setOptionalUsername(
-            Optional<String> optionalUsername) {
+    public CredentialsUpdateView setOptionalUsername(Optional<String> optionalUsername) {
         this.optionalUsername = optionalUsername;
         return this;
     }
@@ -30,21 +30,22 @@ public class CredentialsUpdateView {
         return optionalUsername;
     }
 
-    public CredentialsUpdateView setOptionalPassword(
-            Optional<String> optionalPassword) {
-        this.optionalPassword = optionalPassword;
+    public CredentialsUpdateView setOptionalPasswordSalt(Optional<String> optionalPasswordSalt) {
+        this.optionalPasswordSalt = optionalPasswordSalt;
         return this;
     }
 
-    public Optional<String> getOptionalPassword() {
-        return optionalPassword;
+    public Optional<String> getOptionalPasswordSalt() {
+        return optionalPasswordSalt;
     }
 
-    public CredentialsUpdateModel toModel() {
-        return new CredentialsUpdateModel()
-                .setOptionalUsertag(optionalUsertag)
-                .setOptionalUsername(optionalUsername)
-                .setOptionalPassword(optionalPassword);
+    public CredentialsUpdateView setOptionalPasswordHash(Optional<String> optionalPasswordHash) {
+        this.optionalPasswordHash = optionalPasswordHash;
+        return this;
+    }
+
+    public Optional<String> getOptionalPasswordHash() {
+        return optionalPasswordHash;
     }
 
 }

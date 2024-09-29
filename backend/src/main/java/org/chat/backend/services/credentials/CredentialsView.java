@@ -8,9 +8,9 @@ public class CredentialsView {
 
     private String username = "";
 
-    private byte[] passwordSalt = new byte[0];
+    private String passwordSalt = "";
 
-    private byte[] passwordHash = new byte[0];
+    private String passwordHash = "";
 
     public CredentialsView setId(Long id) {
         this.id = id;
@@ -39,21 +39,21 @@ public class CredentialsView {
         return username;
     }
 
-    public CredentialsView setPasswordSalt(byte[] passwordSalt) {
+    public CredentialsView setPasswordSalt(String passwordSalt) {
         this.passwordSalt = passwordSalt;
         return this;
     }
 
-    public byte[] getPasswordSalt() {
+    public String getPasswordSalt() {
         return passwordSalt;
     }
 
-    public CredentialsView setPasswordHash(byte[] passwordHash) {
+    public CredentialsView setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
         return this;
     }
 
-    public byte[] getPasswordHash() {
+    public String getPasswordHash() {
         return passwordHash;
     }
 

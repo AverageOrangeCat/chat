@@ -1,5 +1,8 @@
 package org.chat.backend.services.session;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import org.chat.backend.exceptions.InvalidLoginAttemptException;
 import org.chat.backend.exceptions.SessionNotFoundException;
 import org.chat.backend.repositories.CredentialsRepository;
@@ -17,11 +20,14 @@ public class SessionService {
     private CredentialsRepository credentialsRepository;
 
     public SessionModel login(SessionLoginModel sessionLoginModel)
-            throws InvalidLoginAttemptException, SessionNotFoundException {
+            throws InvalidLoginAttemptException, SessionNotFoundException, NoSuchAlgorithmException,
+            UnsupportedEncodingException {
+
         var sessionLoginView = sessionLoginModel.toView(credentialsRepository);
         var sessionView = sessionRepository
                 .login(sessionLoginView)
                 .orElseThrow(() -> new SessionNotFoundException());
+
         return sessionView.toModel();
     }
 

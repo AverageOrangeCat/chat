@@ -1,10 +1,9 @@
 package org.chat.backend.services.credentials;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.cxf.rt.security.crypto.CryptoUtils;
+import org.chat.backend.utils.crypto.CryptoUtils;
 
 public class CredentialsCreateModel {
 
@@ -41,14 +40,9 @@ public class CredentialsCreateModel {
         return password;
     }
 
-    public CredentialsCreateView toView() {
+    public CredentialsCreateView toView() throws NoSuchAlgorithmException, UnsupportedEncodingException {
         var passwordSalt = CryptoUtils.generateSecureRandomBytes(16);
-        var passwordBytes = password.getBytes(StandardCharsets.UTF_8);
-        var passwordHash = DigestUtils.sha3_256(
-                ByteBuffer.allocate(passwordSalt.length + passwordBytes.length)
-                        .put(passwordSalt)
-                        .put(passwordBytes)
-                        .array());
+        var passwordHash = CryptoUtils.generateSha256Hash(passwordSalt + password);
 
         return new CredentialsCreateView()
                 .setUsertag(usertag)

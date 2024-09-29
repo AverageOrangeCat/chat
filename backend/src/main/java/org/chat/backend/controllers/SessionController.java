@@ -1,5 +1,8 @@
 package org.chat.backend.controllers;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import org.chat.backend.exceptions.InvalidLoginAttemptException;
 import org.chat.backend.exceptions.SessionNotFoundException;
 import org.chat.backend.services.session.SessionLoginModel;
@@ -24,16 +27,18 @@ public class SessionController {
 
     @PostMapping("/login")
     public void login(@RequestBody SessionLoginModel sessionLoginModel, HttpServletResponse response)
-            throws InvalidLoginAttemptException, SessionNotFoundException {
-        SessionModel sessionModel = sessionService.login(sessionLoginModel);
-        Cookie sessionCookie = new Cookie("Authorization", sessionModel.getBearToken());
+            throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidLoginAttemptException,
+            SessionNotFoundException {
+
+        var sessionModel = sessionService.login(sessionLoginModel);
+        var sessionCookie = new Cookie("Authorization", sessionModel.getBearToken());
         response.addCookie(sessionCookie);
     }
 
     @DeleteMapping("/logout")
     public void logout(HttpServletResponse response) throws SessionNotFoundException {
         sessionService.logout();
-        Cookie sessionCookie = new Cookie("Authorization", "");
+        var sessionCookie = new Cookie("Authorization", "");
         response.addCookie(sessionCookie);
     }
 

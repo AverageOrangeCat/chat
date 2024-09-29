@@ -1,6 +1,10 @@
 package org.chat.backend.services.credentials;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
+
+import org.chat.backend.utils.crypto.CryptoUtils;
 
 public class CredentialsUpdateModel {
 
@@ -20,8 +24,7 @@ public class CredentialsUpdateModel {
         return optionalUsertag;
     }
 
-    public CredentialsUpdateModel setOptionalUsername(
-            Optional<String> optionalUsername) {
+    public CredentialsUpdateModel setOptionalUsername(Optional<String> optionalUsername) {
         this.optionalUsername = optionalUsername;
         return this;
     }
@@ -30,8 +33,7 @@ public class CredentialsUpdateModel {
         return optionalUsername;
     }
 
-    public CredentialsUpdateModel setOptionalPassword(
-            Optional<String> optionalPassword) {
+    public CredentialsUpdateModel setOptionalPassword(Optional<String> optionalPassword) {
         this.optionalPassword = optionalPassword;
         return this;
     }
@@ -40,11 +42,21 @@ public class CredentialsUpdateModel {
         return optionalPassword;
     }
 
-    public CredentialsUpdateView toView() {
-        return new CredentialsUpdateView()
+    public CredentialsUpdateView toView() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        var credentialsUpdateView = new CredentialsUpdateView();
+
+        if (optionalPassword.isPresent()) {
+            var passwordSalt = CryptoUtils.generateSecureRandomBytes(16);
+            var passwordHash = CryptoUtils.generateSha256Hash(passwordSalt + optionalPassword.get());
+
+            credentialsUpdateView
+                    .setOptionalPasswordSalt(Optional.of(passwordSalt))
+                    .setOptionalPasswordHash(Optional.of(passwordHash));
+        }
+
+        return credentialsUpdateView
                 .setOptionalUsertag(optionalUsertag)
-                .setOptionalUsername(optionalUsername)
-                .setOptionalPassword(optionalPassword);
+                .setOptionalUsername(optionalUsername);
     }
 
 }

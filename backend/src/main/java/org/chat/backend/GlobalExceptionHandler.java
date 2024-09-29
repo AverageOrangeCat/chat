@@ -1,5 +1,8 @@
 package org.chat.backend;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import org.chat.backend.exceptions.BearTokenNotProvidedException;
 import org.chat.backend.exceptions.CredentialsNotFoundException;
 import org.chat.backend.exceptions.InvalidLoginAttemptException;
@@ -12,6 +15,24 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(NoSuchAlgorithmException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public GlobalExceptionResponse handleNoSuchAlgorithmException(
+            NoSuchAlgorithmException exception) {
+        return new GlobalExceptionResponse()
+                .setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                .setMessage("Invalid hashing algorithm provided");
+    }
+
+    @ExceptionHandler(UnsupportedEncodingException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public GlobalExceptionResponse handleUnsupportedEncodingException(
+            UnsupportedEncodingException exception) {
+        return new GlobalExceptionResponse()
+                .setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                .setMessage("Invalid encoding provided");
+    }
 
     @ExceptionHandler(InvalidLoginAttemptException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

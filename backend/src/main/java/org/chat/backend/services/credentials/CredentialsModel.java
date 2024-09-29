@@ -24,10 +24,4 @@ public class CredentialsModel {
         return username;
     }
 
-    public CredentialsView toView() {
-        return new CredentialsView()
-                .setUsertag(usertag)
-                .setUsername(username);
-    }
-
 }

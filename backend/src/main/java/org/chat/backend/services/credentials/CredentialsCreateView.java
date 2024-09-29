@@ -6,9 +6,9 @@ public class CredentialsCreateView {
 
     private String username = "";
 
-    private byte[] passwordSalt = new byte[0];
+    private String passwordSalt = "";
 
-    private byte[] passwordHash = new byte[0];
+    private String passwordHash = "";
 
     public CredentialsCreateView setUsertag(String usertag) {
         this.usertag = usertag;
@@ -28,21 +28,21 @@ public class CredentialsCreateView {
         return username;
     }
 
-    public CredentialsCreateView setPasswordSalt(byte[] passwordSalt) {
+    public CredentialsCreateView setPasswordSalt(String passwordSalt) {
         this.passwordSalt = passwordSalt;
         return this;
     }
 
-    public byte[] getPasswordSalt() {
+    public String getPasswordSalt() {
         return passwordSalt;
     }
 
-    public CredentialsCreateView setPasswordHash(byte[] passwordHash) {
+    public CredentialsCreateView setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
         return this;
     }
 
-    public byte[] getPasswordHash() {
+    public String getPasswordHash() {
         return passwordHash;
     }
 

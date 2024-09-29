@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.chat.backend.services.credentials.CredentialsCreateView;
 import org.chat.backend.services.credentials.CredentialsView;
+import org.chat.backend.services.credentials.PasswordView;
 import org.chat.backend.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -19,18 +20,20 @@ public class CredentialsRepository {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public Optional<byte[]> getPasswordSalt(String usertag) {
-        var passwordSalts = namedParameterJdbcTemplate.query(
+    public Optional<PasswordView> getPasswordView(String usertag) {
+        var passwordViews = namedParameterJdbcTemplate.query(
                 """
-                        SELECT password_salt FROM credentials
+                        SELECT password_salt, password_hash FROM credentials
                         WHERE usertag = :usertag
                         """,
                 new MapSqlParameterSource("usertag", usertag),
-                (resultSet, rowNumber) -> resultSet.getBytes("password_salt"));
+                (resultSet, rowNumber) -> new PasswordView()
+                        .setPasswordSalt(resultSet.getString("password_salt"))
+                        .setPasswordHash(resultSet.getString("password_hash")));
 
-        return passwordSalts.isEmpty()
+        return passwordViews.isEmpty()
                 ? Optional.empty()
-                : Optional.of(passwordSalts.get(0));
+                : Optional.of(passwordViews.get(0));
     }
 
     public Optional<CredentialsView> getCredentialsView(String usertag) {
@@ -41,25 +44,8 @@ public class CredentialsRepository {
                         .setId(resultSet.getLong("credential_id"))
                         .setUsertag(resultSet.getString("usertag"))
                         .setUsername(resultSet.getString("username"))
-                        .setPasswordSalt(resultSet.getBytes("password_salt"))
-                        .setPasswordHash(resultSet.getBytes("password_hash")));
-
-        return credentialViews.isEmpty()
-                ? Optional.empty()
-                : Optional.of(credentialViews.get(0));
-    }
-
-    public Optional<CredentialsView> getCredentialsView(
-            String usertag, byte[] passwordSalt, byte[] passwordHash) {
-        var credentialViews = namedParameterJdbcTemplate.query(
-                "SELECT * FROM credentials WHERE usertag = :usertag",
-                new MapSqlParameterSource("usertag", usertag),
-                (resultSet, rowNumber) -> new CredentialsView()
-                        .setId(resultSet.getLong("credential_id"))
-                        .setUsertag(resultSet.getString("usertag"))
-                        .setUsername(resultSet.getString("username"))
-                        .setPasswordSalt(resultSet.getBytes("password_salt"))
-                        .setPasswordHash(resultSet.getBytes("password_hash")));
+                        .setPasswordSalt(resultSet.getString("password_salt"))
+                        .setPasswordHash(resultSet.getString("password_hash")));
 
         return credentialViews.isEmpty()
                 ? Optional.empty()
@@ -69,8 +55,8 @@ public class CredentialsRepository {
     public Integer create(CredentialsCreateView credentialsCreateView) {
         return namedParameterJdbcTemplate.update(
                 """
-                        INSERT INTO credentials (usertag, username, password)
-                        VALUES (:usertag, :username, :password)
+                        INSERT INTO credentials (usertag, username, password_salt, password_hash)
+                        VALUES (:usertag, :username, :password_salt, :password_hash)
                         """,
                 new MapSqlParameterSource()
                         .addValue("usertag", credentialsCreateView.getUsertag())
@@ -107,18 +93,32 @@ public class CredentialsRepository {
                         .addValue("username", username));
     }
 
-    public Integer updatePassword(String password) {
+    public Integer updatePasswordSalt(String passwordSalt) {
         var user = userService.getUser();
         return namedParameterJdbcTemplate.update(
                 """
-                        UPDATE credentials SET password = :password
+                        UPDATE credentials SET password_salt = :password_salt
                         WHERE credential_id = :credential_id
                         """,
                 new MapSqlParameterSource()
                         .addValue("credential_id", user
                                 .getCredentialsView()
                                 .getId())
-                        .addValue("password", password));
+                        .addValue("password_salt", passwordSalt));
+    }
+
+    public Integer updatePasswordHash(String passwordHash) {
+        var user = userService.getUser();
+        return namedParameterJdbcTemplate.update(
+                """
+                        UPDATE credentials SET password_hash = :password_hash
+                        WHERE credential_id = :credential_id
+                        """,
+                new MapSqlParameterSource()
+                        .addValue("credential_id", user
+                                .getCredentialsView()
+                                .getId())
+                        .addValue("password_hash", passwordHash));
     }
 
     public Integer delete() {
