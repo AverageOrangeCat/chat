@@ -3,7 +3,6 @@ package org.chat.backend.interceptors;
 import java.util.Optional;
 
 import org.chat.backend.exceptions.BearTokenNotProvidedException;
-import org.chat.backend.exceptions.DatabaseException;
 import org.chat.backend.exceptions.credentials.CredentialsNotFoundException;
 import org.chat.backend.exceptions.session.SessionNotFoundException;
 import org.chat.backend.repositories.CredentialsRepository;

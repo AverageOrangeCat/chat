@@ -1,9 +1,5 @@
 package org.chat.backend.controllers;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
-import org.chat.backend.exceptions.credentials.CredentialsNotFoundException;
 import org.chat.backend.services.credentials.CredentialsCreateModel;
 import org.chat.backend.services.credentials.CredentialsModel;
 import org.chat.backend.services.credentials.CredentialsService;
