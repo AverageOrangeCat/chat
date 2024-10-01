@@ -1,9 +1,9 @@
-package org.chat.backend.exceptions;
+package org.chat.backend.exceptions.credentials;
 
 public class CredentialsNotFoundException extends Exception {
 
     public CredentialsNotFoundException() {
-        super();
+        super("Not specified");;
     }
 
     public CredentialsNotFoundException(String message) {

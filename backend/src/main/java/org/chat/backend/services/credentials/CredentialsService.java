@@ -1,9 +1,6 @@
 package org.chat.backend.services.credentials;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
-import org.chat.backend.exceptions.CredentialsNotFoundException;
+import org.chat.backend.exceptions.credentials.CredentialsNotFoundException;
 import org.chat.backend.repositories.CredentialsRepository;
 import org.chat.backend.utils.crypto.CryptoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +12,17 @@ public class CredentialsService {
     @Autowired
     private CredentialsRepository credentialsRepository;
 
-    public CredentialsModel getCredentialsModel(String usertag) throws CredentialsNotFoundException {
+    public CredentialsModel getCredentialsModel(String usertag) throws Exception {
         var credentialsView = credentialsRepository
                 .getCredentialsView(usertag)
-                .orElseThrow(() -> new CredentialsNotFoundException());
+                .orElseThrow(() -> new CredentialsNotFoundException(usertag));
 
         return new CredentialsModel()
                 .setUsertag(credentialsView.getUsertag())
                 .setUsername(credentialsView.getUsername());
     }
 
-    public void create(CredentialsCreateModel credentialsCreateModel)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
-
+    public void create(CredentialsCreateModel credentialsCreateModel) throws Exception {
         var passwordSalt = CryptoUtils.generateSecureRandomBytes(16);
         var passwordHash = CryptoUtils.generateSha256Hash(passwordSalt + credentialsCreateModel.getPassword());
         var credentialsCreateView = new CredentialsCreateView()
@@ -36,17 +31,15 @@ public class CredentialsService {
                 .setPasswordSalt(passwordSalt)
                 .setPasswordHash(passwordHash);
 
-        credentialsRepository.create(credentialsCreateView);
+        credentialsRepository.createCredentials(credentialsCreateView);
     }
 
-    public void update(CredentialsUpdateModel credentialsUpdateModel)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
-
+    public void update(CredentialsUpdateModel credentialsUpdateModel) throws Exception {
         if (credentialsUpdateModel
                 .getOptionalUsertag()
                 .isPresent()) {
 
-            credentialsRepository.updateUsertag(
+            credentialsRepository.updateCredentialUsertag(
                     credentialsUpdateModel
                             .getOptionalUsertag()
                             .get());
@@ -56,7 +49,7 @@ public class CredentialsService {
                 .getOptionalUsername()
                 .isPresent()) {
 
-            credentialsRepository.updateUsertag(
+            credentialsRepository.updateCredentialUsername(
                     credentialsUpdateModel
                             .getOptionalUsername()
                             .get());
@@ -72,13 +65,13 @@ public class CredentialsService {
                             .getOptionalPassword()
                             .get());
 
-            credentialsRepository.updatePasswordSalt(passwordSalt);
-            credentialsRepository.updatePasswordHash(passwordHash);
+            credentialsRepository.updateCredentialPasswordSalt(passwordSalt);
+            credentialsRepository.updateCredentialPasswordHash(passwordHash);
         }
     }
 
-    public void delete() {
-        credentialsRepository.delete();
+    public void delete() throws Exception {
+        credentialsRepository.deleteCredentials();
     }
 
 }

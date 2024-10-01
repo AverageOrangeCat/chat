@@ -1,10 +1,5 @@
 package org.chat.backend.controllers;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
-import org.chat.backend.exceptions.InvalidLoginAttemptException;
-import org.chat.backend.exceptions.SessionNotFoundException;
 import org.chat.backend.services.session.SessionLoginModel;
 import org.chat.backend.services.session.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +20,14 @@ public class SessionController {
     private SessionService sessionService;
 
     @PostMapping("/login")
-    public void login(@RequestBody SessionLoginModel sessionLoginModel, HttpServletResponse response)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidLoginAttemptException,
-            SessionNotFoundException {
-
+    public void login(@RequestBody SessionLoginModel sessionLoginModel, HttpServletResponse response) throws Exception {
         var sessionModel = sessionService.login(sessionLoginModel);
         var sessionCookie = new Cookie("Authorization", sessionModel.getBearToken());
         response.addCookie(sessionCookie);
     }
 
     @DeleteMapping("/logout")
-    public void logout(HttpServletResponse response) throws SessionNotFoundException {
+    public void logout(HttpServletResponse response) throws Exception {
         sessionService.logout();
         var sessionCookie = new Cookie("Authorization", "");
         response.addCookie(sessionCookie);

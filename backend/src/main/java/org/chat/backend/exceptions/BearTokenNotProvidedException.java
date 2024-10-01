@@ -3,7 +3,7 @@ package org.chat.backend.exceptions;
 public class BearTokenNotProvidedException extends Exception {
 
     public BearTokenNotProvidedException() {
-        super();
+        super("Not specified");;
     }
 
     public BearTokenNotProvidedException(String message) {

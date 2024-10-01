@@ -1,10 +1,7 @@
 package org.chat.backend.services.session;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import org.chat.backend.exceptions.InvalidLoginAttemptException;
-import org.chat.backend.exceptions.SessionNotFoundException;
+import org.chat.backend.exceptions.session.SessionNotFoundException;
 import org.chat.backend.repositories.CredentialsRepository;
 import org.chat.backend.repositories.SessionRepository;
 import org.chat.backend.utils.crypto.CryptoUtils;
@@ -20,9 +17,7 @@ public class SessionService {
     @Autowired
     private CredentialsRepository credentialsRepository;
 
-    public SessionModel login(SessionLoginModel sessionLoginModel)
-            throws InvalidLoginAttemptException, SessionNotFoundException, NoSuchAlgorithmException,
-            UnsupportedEncodingException {
+    public SessionModel login(SessionLoginModel sessionLoginModel) throws Exception {
 
         var passwordView = credentialsRepository
                 .getPasswordView(sessionLoginModel.getUsertag())
@@ -45,14 +40,14 @@ public class SessionService {
 
         var sessionView = sessionRepository
                 .login(sessionLoginView)
-                .orElseThrow(() -> new SessionNotFoundException());
+                .orElseThrow(() -> new SessionNotFoundException(bearToken));
 
         return new SessionModel()
                 .setBearToken(sessionView.getBearToken())
                 .setUsertag(sessionView.getUsertag());
     }
 
-    public void logout() throws SessionNotFoundException {
+    public void logout() throws Exception {
         sessionRepository.logout();
     }
 

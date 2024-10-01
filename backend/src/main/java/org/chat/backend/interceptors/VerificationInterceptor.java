@@ -3,8 +3,9 @@ package org.chat.backend.interceptors;
 import java.util.Optional;
 
 import org.chat.backend.exceptions.BearTokenNotProvidedException;
-import org.chat.backend.exceptions.CredentialsNotFoundException;
-import org.chat.backend.exceptions.SessionNotFoundException;
+import org.chat.backend.exceptions.DatabaseException;
+import org.chat.backend.exceptions.credentials.CredentialsNotFoundException;
+import org.chat.backend.exceptions.session.SessionNotFoundException;
 import org.chat.backend.repositories.CredentialsRepository;
 import org.chat.backend.repositories.SessionRepository;
 import org.chat.backend.services.current_user.CurrentUser;
@@ -28,9 +29,7 @@ public class VerificationInterceptor implements HandlerInterceptor {
     private CredentialsRepository credentialsRepository;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws BearTokenNotProvidedException, SessionNotFoundException, CredentialsNotFoundException {
-
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         var bearToken = Optional
                 .ofNullable(request.getHeader("Authorization"))
                 .orElseThrow(() -> new BearTokenNotProvidedException())

@@ -3,7 +3,7 @@ package org.chat.backend.controllers;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
-import org.chat.backend.exceptions.CredentialsNotFoundException;
+import org.chat.backend.exceptions.credentials.CredentialsNotFoundException;
 import org.chat.backend.services.credentials.CredentialsCreateModel;
 import org.chat.backend.services.credentials.CredentialsModel;
 import org.chat.backend.services.credentials.CredentialsService;
@@ -26,28 +26,22 @@ public class CredentialsController {
     private CredentialsService credentialsService;
 
     @GetMapping("/{usertag}")
-    public CredentialsModel getCredentialsModel(@PathVariable("usertag") String usertag)
-            throws CredentialsNotFoundException {
-
+    public CredentialsModel getCredentialsModel(@PathVariable("usertag") String usertag) throws Exception {
         return credentialsService.getCredentialsModel(usertag);
     }
 
     @PostMapping("/create")
-    public void create(@RequestBody CredentialsCreateModel credentialsCreateModel)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
-
+    public void create(@RequestBody CredentialsCreateModel credentialsCreateModel) throws Exception {
         credentialsService.create(credentialsCreateModel);
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody CredentialsUpdateModel credentialsUpdateModel)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
-
+    public void update(@RequestBody CredentialsUpdateModel credentialsUpdateModel) throws Exception {
         credentialsService.update(credentialsUpdateModel);
     }
 
     @DeleteMapping("/delete")
-    public void delete() {
+    public void delete() throws Exception {
         credentialsService.delete();
     }
 

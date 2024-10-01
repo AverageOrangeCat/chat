@@ -4,10 +4,12 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 import org.chat.backend.exceptions.BearTokenNotProvidedException;
-import org.chat.backend.exceptions.CredentialsNotFoundException;
+import org.chat.backend.exceptions.DatabaseException;
 import org.chat.backend.exceptions.InvalidLoginAttemptException;
 import org.chat.backend.exceptions.NotFoundException;
-import org.chat.backend.exceptions.SessionNotFoundException;
+import org.chat.backend.exceptions.credentials.CredentialsAlreadyExistsException;
+import org.chat.backend.exceptions.credentials.CredentialsNotFoundException;
+import org.chat.backend.exceptions.session.SessionNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -70,12 +72,29 @@ public class GlobalExceptionHandler {
                 .setMessage("Could not find credentials: " + exception.getMessage());
     }
 
+    @ExceptionHandler(CredentialsAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public GlobalExceptionResponse handleCredentialsAlreadyExistsException(
+            CredentialsAlreadyExistsException exception) {
+        return new GlobalExceptionResponse()
+                .setHttpStatus(HttpStatus.CONFLICT)
+                .setMessage("Credentials already exists: " + exception.getMessage());
+    }
+
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public GlobalExceptionResponse handleNotFoundException(NotFoundException exception) {
         return new GlobalExceptionResponse()
                 .setHttpStatus(HttpStatus.NOT_FOUND)
                 .setMessage("Could not find: " + exception.getMessage());
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public GlobalExceptionResponse handleDatabaseException(DatabaseException exception) {
+        return new GlobalExceptionResponse()
+                .setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                .setMessage("An database error occured: " + exception.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
