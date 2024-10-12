@@ -6,4 +6,4 @@ COPY ./backend /backend
 RUN mvn clean
 RUN mvn package
 
-CMD java -jar target/backend-1.0-SNAPSHOT.jar
+CMD java -jar target/Program.jar

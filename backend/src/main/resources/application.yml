@@ -1,13 +1,13 @@
 logging:
   level:
-    root: "debug"
+    root: debug
 
 spring:
   application:
-    name: jdbc_driven_setup
+    name: chat
 
   datasource:
-    url: jdbc:postgresql://database:5432/database
+    url: jdbc:postgresql://database:5432/${DATABASE_NAME}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
 
@@ -18,8 +18,8 @@ spring:
       maxLifetime: 50000
 
   flyway:
-    enabeld: true
-    basline-on-migrate: true
+    enabled: true
+    baseline-on-migrate: true
     locations: classpath:migrations/*.sql
 
 server:

@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class DefaultController {
 
     @RequestMapping("/**")
-    public void getAccountData(HttpServletRequest request) throws NotFoundException {
+    public void notFound(HttpServletRequest request) throws NotFoundException {
         throw new NotFoundException(request.getRequestURI());
     }
 

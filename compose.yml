@@ -2,7 +2,7 @@ services:
   database:
     image: postgres:16
     environment:
-      POSTGRES_DB: database
+      POSTGRES_DB: local
     env_file:
       - enviroment.env
     ports:
@@ -12,6 +12,8 @@ services:
     build:
       context: .
       dockerfile: dockerfile-backend
+    environment:
+      DATABASE_NAME: local
     env_file:
       - enviroment.env
     depends_on:
