@@ -4,7 +4,7 @@
 
 Chat is a simple project I wanted to create to ...
 
-1. ... imporve my coding skills
+1. ... improve my coding skills
 2. ... learn how to host fully featured websites
 3. ... have fun 🥳
 
